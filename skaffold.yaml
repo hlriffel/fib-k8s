@@ -1,0 +1,30 @@
+apiVersion: skaffold/v1beta2
+kind: config
+build:
+  local:
+    push: false
+  artifacts:
+    - image: hlriffel/fib-client
+      context: client
+      docker:
+        dockerfile: Dockerfile.dev
+      sync:
+        '**/*.js': .
+        '**/*.css': .
+        '**/*.html': .
+    - image: hlriffel/fib-server
+      context: server
+      docker:
+        dockerfile: Dockerfile.dev
+      sync:
+        '**/*.js': .
+    - image: hlriffel/fib-worker
+      context: worker
+      docker:
+        dockerfile: Dockerfile.dev
+      sync:
+        '**/*.js': .
+deploy:
+  kubectl:
+    manifests:
+      - 
